@@ -1,0 +1,89 @@
+exposures:
+  "External target hardening":
+    - ETH_ILL
+    - ETH_LOC
+    - ETH_MON
+    - ETH_BAR
+    - ETH_OCP
+    - ETH_GFS
+  "Internal target hardening":
+    - ITH_MDT
+    - ITH_CDL
+    - ITH_CHW
+    - ITH_BPS
+    - ITH_CAM
+  Monitoring:
+    - MON_TAT
+    - MON_DDS
+    - MON_RSC
+    - MON_CBG
+    - MON_IDN
+    - MON_IDT
+    - MON_IDS
+    - MON_VIS
+    - MON_OTP
+  "Emergemency procedures":
+    - EPD_ASP
+    - EPD_HSP
+    - EPD_BTP
+    - EPD_STP
+    - EPD_DRL
+  "Emergency notifications":
+    - ENT_PRT
+    - ENT_POL
+    - ENT_ATR
+    - ENT_ARL
+    - ENT_TWO
+  "Medical Support":
+    - MED_NRS
+    - MED_PSY
+    - MED_AID
+  "School security":
+    - SEC_OFF
+    - SEC_LAW
+    - SEC_TEA
+
+outcome:
+  - OutcomeStatus
+  
+confounders:
+  SC_AREA:
+    label: School building area (Sq. ft.) 
+  SCH_FTETEACH_TOT:
+    label: Total FTE teachers
+  TOT_ENR_M:
+    label: Total enrollment male
+  TOT_ENR_F:
+    label: Total enrollment female
+  TOT_ENR:
+    label: Total student enrollment
+    # depends:
+    #   - TOT_ENR_M
+    #   - TOT_ENR_F
+  a5y_b02001003_pct:
+    label: Black enrollment (%)
+  a5y_b02001004_pct:
+    label: Native American enrollment (%)
+  a5y_b02001005_pct:
+    label: Asian enrollment (%)
+  a5y_b03001003_pct:
+    label: Hispanic enrollment (%)
+  a5y_b01001001_den:
+    label: Neighborhood population density
+  a5y_b19013001_med:
+    label: Median household income
+  a5y_b19083001_idx:
+    label: Gini index
+  a5y_a17005003_pct:
+    label: Unemployed (%)
+  vot_pdem_idx:
+    label: Democrat vote
+  vot_prep_idx:
+    label: Repulican vote
+  demrepratio:
+    label: Democrat-to-Republican ratio
+      # depends:
+      #   - vote_pdem_idx
+      #   - vote_prep_idx
+  cri_proc_idx:
+    label: Crime index
