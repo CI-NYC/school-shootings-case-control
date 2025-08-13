@@ -1,6 +1,10 @@
 library(SuperLearner)
 library(dplyr)
 
+SL.1se.glmnet = function(...) {
+  SL.glmnet(..., useMin = FALSE)
+}
+
 fit_density_ratios <- function(data, alternate, weights, id, folds) {
   no_folds <- length(folds)
   Rr <- matrix(nrow = nrow(data), ncol = 1)
@@ -27,7 +31,7 @@ fit_density_ratios <- function(data, alternate, weights, id, folds) {
                         X = select(train, setdiff(covar, c(weights, id)), 
                                    all_of(exposures)), 
                         family = "binomial", 
-                        SL.library = c("SL.glm", "SL.glmnet"), 
+                        SL.library = c("SL.glm", "SL.1se.glmnet"), 
                         id = train[[id]], 
                         obsWeights = train[[weights]])
 

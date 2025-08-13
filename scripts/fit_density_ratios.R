@@ -11,9 +11,9 @@ schools <- left_join(outcomes, exposures) |>
   left_join(confounders) |> 
   select(-OutcomeStatus)
 
-make_alternate <- function(data, exposure) {
+make_alternate <- function(data, exposure, a) {
   others <- setdiff(setdiff(names(exposures), c("ID", "GID")), exposure)
-  mutate(data, {{ exposure }} := 1) |>  
+  mutate(data, {{ exposure }} := a) |>  
     select(all_of(names(exposures)))
 }
 
@@ -25,7 +25,7 @@ names(Rr) <- A
 for (a in A) {
   Rr[[a]] <- fit_density_ratios(
     schools, 
-    make_alternate(schools, a), 
+    make_alternate(schools, a, 1), 
     "weights", 
     "GID", 
     folds
@@ -35,4 +35,4 @@ for (a in A) {
 Rr <- do.call(cbind, Rr)
 colnames(Rr) <- A
 
-saveRDS(Rr, "data/derived/density_ratios.rds")
+saveRDS(Rr, "data/derived/density_ratios_1.rds")

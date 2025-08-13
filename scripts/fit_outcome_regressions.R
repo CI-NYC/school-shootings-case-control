@@ -15,6 +15,10 @@ fits <- vector("list", no_folds)
 
 X <- setdiff(c(names(exposures), names(confounders)), c("ID", "GID"))
 
+SL.1se.glmnet = function(...) {
+  SL.glmnet(..., useMin = FALSE)
+}
+
 for (v in seq_len(no_folds)) {
   train <- schools[folds[[v]]$training_set, ]
   
@@ -22,8 +26,7 @@ for (v in seq_len(no_folds)) {
     Y = train$OutcomeStatus, 
     X = select(train, all_of(X)), 
     family = "binomial", 
-    # SL.library = c("SL.earth", "SL.xgboost", "SL.ranger", "SL.glmnet"), 
-    SL.library = c("SL.glm", "SL.glmnet"),
+    SL.library = c("SL.glm", "SL.1se.glmnet"),
     id = train$GID, 
     obsWeights = train$weights
   )
@@ -31,9 +34,9 @@ for (v in seq_len(no_folds)) {
 
 saveRDS(fits, "data/derived/outcome_regressions.rds")
 
-make_alternate <- function(data, exposure) {
+make_alternate <- function(data, exposure, a) {
   others <- setdiff(setdiff(names(exposures), c("ID", "GID")), exposure)
-  mutate(data, {{ exposure }} := 1) |>  
+  mutate(data, {{ exposure }} := a) |>  
     select(any_of(X))
 }
 
@@ -47,10 +50,10 @@ for (v in seq_len(no_folds)) {
     if (a == "observed") {
       alternate <- select(valid, all_of(X))
     } else {
-      alternate <- make_alternate(valid, a)
+      alternate <- make_alternate(valid, a, 1)
     }
     preds[folds[[v]]$validation_set, a] <- predict(model, alternate)$pred
   }
 }
 
-saveRDS(preds, "data/derived/outcome_regression_predictions.rds")
+saveRDS(preds, "data/derived/outcome_regression_predictions_1.rds")
