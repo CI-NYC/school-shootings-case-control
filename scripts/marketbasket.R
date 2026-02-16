@@ -12,9 +12,9 @@ school_exposures <-
 
 exposure_props <- lapply(school_exposures, mean) |> unlist()
 # Remove exposures uncommon exposures
-exposure_props <- exposure_props[which(exposure_props > 0.15)]
+exposure_props <- exposure_props[which(exposure_props > 0.1)]
 # Remove too common of exposures
-exposure_props <- exposure_props[which(exposure_props < 0.85)]
+exposure_props <- exposure_props[which(exposure_props < 0.9)]
 
 school_exposures <- select(schools, ID, GID, all_of(names(exposure_props)))
 
